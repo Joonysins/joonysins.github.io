@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="ro">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Sliding Login / Sign Up Form ✈️</title>
+    <style>
+        :root {
+            --primary: #5563DE;
+            --text: #222;
+            --muted: #666;
+            --bg-gradient: linear-gradient(135deg, #74ABE2, #5563DE);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: Inter, system-ui, Arial, sans-serif;
+            background: var(--bg-gradient);
+        }
+
+        .container {
+            position: relative;
+            width: 700px;
+            height: 400px;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.18);
+            overflow: hidden;
+        }
+
+        .forms {
+            display: flex;
+            width: 200%;
+            height: 100%;
+            transition: transform 1s ease;
+        }
+
+        .form {
+            width: 50%;
+            padding: 40px;
+        }
+
+        h2 {
+            font-size: 22px;
+            margin-bottom: 18px;
+        }
+
+        label {
+            display: block;
+            font-size: 13px;
+            color: var(--muted);
+            margin-top: 10px;
+            margin-bottom: 6px;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px 12px;
+            border-radius: 8px;
+            border: 1px solid #d6d6d6;
+            font-size: 14px;
+        }
+
+        .actions {
+            margin-top: 16px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 10px 14px;
+            border-radius: 8px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .link {
+            display: inline-block;
+            margin-left: 12px;
+            color: var(--primary);
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        /* Avion FontAwesome (SVG inline) */
+        .plane {
+            position: absolute;
+            top: 20px;
+            left: -60px;
+            width: 40px;
+            height: 40px;
+            z-index: 50;
+            fill: #3844A8;
+        }
+
+        .fly-right {
+            animation: flyRight 1.4s ease forwards;
+        }
+
+        .fly-left {
+            animation: flyLeft 1.4s ease forwards;
+        }
+
+        @keyframes flyRight {
+            0% {
+                left: -60px;
+            }
+
+            100% {
+                left: calc(100% + 60px);
+            }
+        }
+
+        @keyframes flyLeft {
+            0% {
+                left: calc(100% + 60px);
+                transform: scaleX(-1);
+            }
+
+            100% {
+                left: -60px;
+                transform: scaleX(-1);
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <!-- Iconița avionului FontAwesome (SVG inline) -->
+        <svg id="plane" class="plane" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+            <path
+                d="M480 192H365.7L260.6 8.8C257.1 3.4 251.2 0 244.7 0c-4.5 0-9 1.5-12.6 4.3c-7.2 5.7-10.1 15.2-7.2 23.9L259.7 192H179.2L117.7 120H88c-13.3 0-24 10.7-24 24v48H24c-13.3 0-24 10.7-24 24s10.7 24 24 24H64v48c0 13.3 10.7 24 24 24h29.7l61.5-72h80.5L225 483.8c-2.9 8.6 0 18.2 7.2 23.9c3.6 2.8 8.1 4.3 12.6 4.3c6.5 0 12.4-3.4 15.9-8.8L365.7 320H480c17.7 0 32-14.3 32-32V224c0-17.7-14.3-32-32-32z" />
+        </svg>
+
+        <div class="forms" id="forms">
+            <!-- LOGIN -->
+            <div class="form">
+                <h2>Autentificare</h2>
+                <label>Email</label>
+                <input type="email" placeholder="nume@email.com" />
+                <label>Parolă</label>
+                <input type="password" placeholder="••••••••" />
+                <div class="actions">
+                    <button class="btn">Login</button>
+                    <a class="link" id="toSignUp">Înregistrează-te</a>
+                </div>
+            </div>
+
+            <!-- SIGN UP -->
+            <div class="form">
+                <h2>Înregistrare</h2>
+                <label>Nume complet</label>
+                <input type="text" placeholder="Nume Prenume" />
+                <label>Email</label>
+                <input type="email" placeholder="email@exemplu.com" />
+                <label>Parolă</label>
+                <input type="password" placeholder="Alege o parolă" />
+                <div class="actions">
+                    <button class="btn">Sign Up</button>
+                    <a class="link" id="toLogin">Conectează-te</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const forms = document.getElementById('forms');
+        const plane = document.getElementById('plane');
+        const toSignUp = document.getElementById('toSignUp');
+        const toLogin = document.getElementById('toLogin');
+
+        function animatePlane(direction) {
+            plane.classList.remove('fly-right', 'fly-left');
+            void plane.offsetWidth; // reset animation
+            if (direction === 'right') {
+                plane.style.transform = 'scaleX(1)';
+                plane.classList.add('fly-right');
+            } else {
+                plane.style.transform = 'scaleX(-1)';
+                plane.classList.add('fly-left');
+            }
+        }
+
+        toSignUp.addEventListener('click', (e) => {
+            e.preventDefault();
+            animatePlane('right');
+            setTimeout(() => {
+                forms.style.transform = 'translateX(-50%)';
+            }, 300); // mic delay
+        });
+
+        toLogin.addEventListener('click', (e) => {
+            e.preventDefault();
+            animatePlane('left');
+            setTimeout(() => {
+                forms.style.transform = 'translateX(0%)';
+            }, 300);
+        });
+    </script>
+
+</body>
+
+</html>
