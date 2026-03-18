@@ -46,7 +46,7 @@
                         <div class="col-lg-8">
                             <div class="header-info-left">
                                 <ul>                          
-                                    <li>rowingscontact@gmail.com</li>
+                                    <li>rowingssuport@gmail.com</li>
                                     <li>+40 21 224 23 76</li>
                                     <li>Str. Feroviarelor nr. 36</li>
                                 </ul>
@@ -55,10 +55,10 @@
                         <div class="col-lg-4">
                             <div class="header-info-right f-right">
                                 <ul class="header-social">    
-                                    <li><a href="https://www.instagram.com/rowings_official/"><i class="fa-brands fa-instagram"></i>
-                                    <li><a href="https://github.com/Joonysins/Rowings"><i class="fa-brands fa-github"></i>
+                                    <li><a href="https://www.instagram.com/rowings_official/"><i class="fab fa-instagram"></i></a></li>
+                                    <li><a href="https://github.com/Joonysins/Rowings"><i class="fab fa-github"></i></a></li>
                                     <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
-                                   <li> <a href="#"><i class="fab fa-pinterest-p"></i></a></li>
+                                    <li><a href="#"><i class="fab fa-pinterest-p"></i></a></li>
                                 </ul>
                             </div>
                         </div>
@@ -82,7 +82,6 @@
                                             <li><a href="index.html">Acasă</a></li>
                                             <li><a href="about.html">Despre noi</a></li>
                                             <li><a href="packages.html">Pachete</a></li>
-                                            <li><a href="blog.html">Blog</a>
                                             <li><a href="contact.html">Contact</a></li>
                                         </ul>
                                     </nav>
@@ -328,10 +327,10 @@
                   <div class="col-xl-5 col-lg-5 col-md-5">
                         <!-- social -->
                         <div class="footer-social f-right">
-                            <a href="#"><i class="fab fa-twitter"></i></a>
+                            <a href="https://www.instagram.com/rowings_official/"><i class="fab fa-instagram"></i></a></li>
+                            <a href="https://www.github.com/Joonysins/Rowings"><i class="fab fa-github"></i></a></li>
                             <a href="#"><i class="fab fa-facebook-f"></i></a>
-                            <a href="#"><i class="fab fa-behance"></i></a>
-                            <a href="#"><i class="fas fa-globe"></i></a>
+                            <a href="#"><i class="fab fa-pinterest-p"></i></a>
                         </div>
                  </div>
              </div>
@@ -372,9 +371,38 @@
         <script src="./assets/js/mail-script.js"></script>
         <script src="./assets/js/jquery.ajaxchimp.min.js"></script>
         
-		<!-- Jquery Plugins, main Jquery -->	
+		<!-- Jquery Plugins, main Jquery -->
         <script src="./assets/js/plugins.js"></script>
         <script src="./assets/js/main.js"></script>
-        
+        <script>
+      // redirect to results page with query params
+      (function(){
+        const btn = document.getElementById('searchFlightsBtn');
+        if (!btn) return;
+        btn.addEventListener('click', function(){
+          const originEl = document.getElementById('origin');
+          const destinationEl = document.getElementById('destination');
+          const dateEl = document.getElementById('date');
+          const classEl = document.getElementById('select1');
+
+          const origin = originEl ? originEl.value.trim() : '';
+          const destination = destinationEl ? destinationEl.value.trim() : '';
+          const date = dateEl ? dateEl.value : '';
+          const travelClass = classEl ? classEl.value : '';
+
+          const params = new URLSearchParams();
+          if (origin) params.set('origin', origin);
+          if (destination) params.set('destination', destination);
+          if (date) params.set('date', date);
+          if (travelClass) params.set('class', travelClass);
+
+          if (params.toString()) {
+            window.location.href = 'search-results.html?' + params.toString();
+          } else {
+            alert('Please enter origin and destination.');
+          }
+        });
+      })();
+      </script>
     </body>
 </html>
