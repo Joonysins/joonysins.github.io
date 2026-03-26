@@ -313,11 +313,21 @@
                 <div class="row">
                     <div class="col-xl-12">
                         <div class="video-caption text-center">
-                            <button onclick="document.getElementById('company-video').style.display='block'; document.getElementById('company-video').play(); this.style.display='none';" style="background: none; border: none; color: white; font-size: 50px;"><i class="fas fa-play"></i></button>
-                            <video id="company-video" style="display: none; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 80%; max-width: 800px;" controls>
-                                <source src="assets/video/rowings-spot.mp4" type="video/mp4">
-                                Browser-ul tău nu suportă tag-ul video.
-                            </video>
+							<button onclick="
+								const v = document.getElementById('company-video');
+								v.style.display='block';
+								v.play();
+								if (v.requestFullscreen) v.requestFullscreen();
+								else if (v.webkitRequestFullscreen) v.webkitRequestFullscreen();
+								else if (v.msRequestFullscreen) v.msRequestFullscreen();
+								this.style.display='none';
+								" style="background: none; border: none; color: white; font-size: 50px;">
+								<i class="fas fa-play"></i>
+							</button>
+							<video id="company-video"
+								style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; object-fit:cover; z-index:9999;"controls>
+								<source src="assets/video/rowings-spot.mp4" type="video/mp4">
+							</video>
                             <p class="pera1">Descoperă lumea călătoriilor cu Rowings</p>
                             <p class="pera2">Agenția de zboruri de top în România</p>
                             <p class="pera3">Servicii complete pentru pasageri și cargo</p>
