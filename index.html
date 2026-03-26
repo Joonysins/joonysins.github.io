@@ -313,25 +313,14 @@
                 <div class="row">
                     <div class="col-xl-12">
                         <div class="video-caption text-center">
-							<button onclick="
-								const v = document.getElementById('company-video');
-								v.style.display='block';
-								v.play();
-								if (v.requestFullscreen) v.requestFullscreen();
-								else if (v.webkitRequestFullscreen) v.webkitRequestFullscreen();
-								else if (v.msRequestFullscreen) v.msRequestFullscreen();
-								this.style.display='none';
-								" style="background: none; border: none; color: white; font-size: 50px;">
-								<i class="fas fa-play"></i>
-							</button>
-							<video id="company-video"
-								style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; object-fit:cover; z-index:9999;"controls>
-								<source src="assets/video/rowings-spot.mp4" type="video/mp4">
-							</video>
+                            <button onclick="document.getElementById('company-video').style.display='block'; document.getElementById('company-video').play(); this.style.display='none';" style="background: none; border: none; color: white; font-size: 50px;"><i class="fas fa-play"></i></button>
+                            <video id="company-video" style="display: none; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 80%; max-width: 800px;" controls>
+                                <source src="assets/video/rowings-spot.mp4" type="video/mp4">
+                                Browser-ul tău nu suportă tag-ul video.
+                            </video>
                             <p class="pera1">Descoperă lumea călătoriilor cu Rowings</p>
                             <p class="pera2">Agenția de zboruri de top în România</p>
                             <p class="pera3">Servicii complete pentru pasageri și cargo</p>
-							<script>
                         </div>
                     </div>
                 </div>
@@ -576,10 +565,10 @@
     </footer>
 
 	<!-- JS here -->
-	
+
 		<!-- All JS Custom Plugins Link Here here -->
         <script src="./assets/js/vendor/modernizr-3.5.0.min.js"></script>
-		
+
 		<!-- Jquery, Popper, Bootstrap -->
 		<script src="./assets/js/vendor/jquery-1.12.4.min.js"></script>
         <script src="./assets/js/popper.min.js"></script>
@@ -599,14 +588,14 @@
         <script src="./assets/js/jquery.scrollUp.min.js"></script>
         <script src="./assets/js/jquery.nice-select.min.js"></script>
 		<script src="./assets/js/jquery.sticky.js"></script>
-        
+
         <!-- contact js -->
         <script src="./assets/js/contact.js"></script>
         <script src="./assets/js/jquery.form.js"></script>
         <script src="./assets/js/jquery.validate.min.js"></script>
         <script src="./assets/js/mail-script.js"></script>
         <script src="./assets/js/jquery.ajaxchimp.min.js"></script>
-        
+
 		<!-- Jquery Plugins, main Jquery -->	
         <script src="./assets/js/plugins.js"></script>
         <script src="./assets/js/main.js"></script>
