@@ -1,0 +1,1688 @@
+<!doctype html>
+<html class="no-js" lang="ro">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Rowings - Rezervare Bilet de Avion</title>
+    <meta name="description" content="Rezervă-ți biletul de avion cu Rowings">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="manifest" href="site.webmanifest">
+    <link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.ico">
+
+    <!-- CSS here -->
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="assets/css/flaticon.css">
+    <link rel="stylesheet" href="assets/css/slicknav.css">
+    <link rel="stylesheet" href="assets/css/animate.min.css">
+    <link rel="stylesheet" href="assets/css/magnific-popup.css">
+    <link rel="stylesheet" href="assets/css/fontawesome-all.min.css">
+    <link rel="stylesheet" href="assets/css/themify-icons.css">
+    <link rel="stylesheet" href="assets/css/slick.css">
+    <link rel="stylesheet" href="assets/css/nice-select.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+
+    <style>
+        /* ======== BOOKING PAGE CUSTOM STYLES ======== */
+        :root {
+            --brand-red: #e8192c;
+            --brand-blue: #1a3c6e;
+            --brand-light-blue: #74ABE2;
+            --brand-dark: #0d1f3c;
+            --accent: #5563DE;
+            --success: #28a745;
+            --seat-available: #e8f4fd;
+            --seat-occupied: #ddd;
+            --seat-selected: #e8192c;
+            --seat-business: #f0e6ff;
+        }
+
+        /* ---- Progress Steps ---- */
+        .booking-progress {
+            background: #fff;
+            padding: 28px 0 18px;
+            border-bottom: 1px solid #eee;
+            margin-bottom: 0;
+        }
+        .progress-steps {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+        .progress-steps li {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            flex: 1;
+            max-width: 180px;
+        }
+        .progress-steps li:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            top: 18px;
+            left: 60%;
+            width: 80%;
+            height: 2px;
+            background: #ddd;
+            z-index: 0;
+            transition: background 0.4s;
+        }
+        .progress-steps li.done:not(:last-child)::after,
+        .progress-steps li.active:not(:last-child)::after {
+            background: var(--brand-red);
+        }
+        .step-icon {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            background: #eee;
+            color: #aaa;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 15px;
+            font-weight: 700;
+            border: 2px solid #ddd;
+            transition: all 0.3s;
+            position: relative;
+            z-index: 1;
+        }
+        .progress-steps li.active .step-icon {
+            background: var(--brand-red);
+            color: #fff;
+            border-color: var(--brand-red);
+            box-shadow: 0 0 0 4px rgba(232,25,44,0.15);
+        }
+        .progress-steps li.done .step-icon {
+            background: var(--brand-blue);
+            color: #fff;
+            border-color: var(--brand-blue);
+        }
+        .step-label {
+            font-size: 11px;
+            color: #aaa;
+            margin-top: 6px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .progress-steps li.active .step-label,
+        .progress-steps li.done .step-label {
+            color: var(--brand-blue);
+        }
+
+        /* ---- Section Wrapper ---- */
+        .booking-section {
+            padding: 50px 0 80px;
+            background: #f7f9fc;
+            min-height: 500px;
+        }
+        .booking-card {
+            background: #fff;
+            border-radius: 14px;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.07);
+            padding: 36px 38px;
+            margin-bottom: 24px;
+        }
+        .booking-card h3 {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--brand-dark);
+            margin-bottom: 22px;
+            padding-bottom: 14px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+        .booking-card h3 i {
+            color: var(--brand-red);
+            margin-right: 8px;
+        }
+
+        /* ---- Step 1: Flight Selection ---- */
+        .flight-card {
+            border: 2px solid #e8ecf2;
+            border-radius: 12px;
+            padding: 22px 26px;
+            margin-bottom: 16px;
+            cursor: pointer;
+            transition: all 0.25s;
+            background: #fff;
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+        .flight-card:hover {
+            border-color: var(--brand-red);
+            box-shadow: 0 4px 16px rgba(232,25,44,0.1);
+            transform: translateY(-2px);
+        }
+        .flight-card.selected {
+            border-color: var(--brand-red);
+            background: #fff8f8;
+            box-shadow: 0 6px 20px rgba(232,25,44,0.15);
+        }
+        .airline-logo-placeholder {
+            width: 52px;
+            height: 52px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, var(--brand-blue), var(--accent));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-weight: 900;
+            font-size: 13px;
+            flex-shrink: 0;
+            letter-spacing: -1px;
+        }
+        .flight-route {
+            flex: 1;
+        }
+        .flight-route .airports {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 22px;
+            font-weight: 800;
+            color: var(--brand-dark);
+        }
+        .flight-route .airports .arrow-line {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .flight-route .airports .arrow-line hr {
+            flex: 1;
+            border: none;
+            border-top: 2px dashed #ccc;
+            margin: 0;
+        }
+        .flight-route .airports .arrow-line i {
+            color: var(--brand-red);
+            font-size: 16px;
+        }
+        .flight-times {
+            font-size: 12px;
+            color: #888;
+            margin-top: 4px;
+        }
+        .flight-times span {
+            font-weight: 700;
+            color: var(--brand-dark);
+        }
+        .flight-duration {
+            text-align: center;
+            min-width: 80px;
+        }
+        .flight-duration .dur {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--brand-dark);
+        }
+        .flight-duration .stops {
+            font-size: 11px;
+            color: var(--success);
+            font-weight: 600;
+        }
+        .flight-price {
+            text-align: right;
+            min-width: 120px;
+        }
+        .flight-price .price-amount {
+            font-size: 26px;
+            font-weight: 900;
+            color: var(--brand-red);
+        }
+        .flight-price .price-class {
+            font-size: 11px;
+            color: #888;
+        }
+        .flight-price .select-btn {
+            margin-top: 8px;
+            padding: 7px 18px;
+            background: var(--brand-red);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .flight-price .select-btn:hover {
+            background: #c0000e;
+        }
+        .flight-badge {
+            background: #fff3cd;
+            color: #856404;
+            font-size: 10px;
+            font-weight: 700;
+            padding: 3px 8px;
+            border-radius: 4px;
+            margin-left: 8px;
+            vertical-align: middle;
+        }
+        .class-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 24px;
+        }
+        .class-tab {
+            padding: 9px 22px;
+            border-radius: 25px;
+            border: 2px solid #ddd;
+            background: #fff;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 700;
+            color: #888;
+            transition: all 0.2s;
+        }
+        .class-tab.active {
+            background: var(--brand-blue);
+            color: #fff;
+            border-color: var(--brand-blue);
+        }
+
+        /* ---- Step 2: Seat Map ---- */
+        .seat-map-wrapper {
+            display: flex;
+            gap: 32px;
+            align-items: flex-start;
+        }
+        .seat-map-plane {
+            flex: 1;
+        }
+        .seat-legend {
+            display: flex;
+            gap: 18px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            font-size: 12px;
+            color: #666;
+            font-weight: 600;
+        }
+        .legend-seat {
+            width: 22px;
+            height: 22px;
+            border-radius: 5px;
+        }
+        .legend-seat.available { background: var(--seat-available); border: 2px solid #b8d8f0; }
+        .legend-seat.occupied  { background: var(--seat-occupied); border: 2px solid #bbb; }
+        .legend-seat.selected  { background: var(--seat-selected); border: 2px solid #b00; }
+        .legend-seat.business  { background: var(--seat-business); border: 2px solid #b89cf0; }
+
+        .plane-nose {
+            text-align: center;
+            font-size: 32px;
+            color: #ccc;
+            margin-bottom: 8px;
+        }
+        .cabin-section-label {
+            text-align: center;
+            font-size: 11px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #888;
+            background: #f5f5f5;
+            border-radius: 4px;
+            padding: 4px 0;
+            margin-bottom: 10px;
+        }
+        .cabin-section-label.business { color: #7b5ea7; background: #f0e6ff; }
+
+        .seat-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 6px;
+            gap: 4px;
+        }
+        .seat-row-num {
+            width: 24px;
+            text-align: center;
+            font-size: 11px;
+            color: #aaa;
+            font-weight: 700;
+        }
+        .seat-aisle { width: 18px; }
+        .seat {
+            width: 30px;
+            height: 30px;
+            border-radius: 6px 6px 4px 4px;
+            border: 2px solid #b8d8f0;
+            background: var(--seat-available);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 9px;
+            font-weight: 700;
+            color: #5a9dbf;
+            transition: all 0.15s;
+            position: relative;
+        }
+        .seat:hover:not(.occupied) {
+            background: #ffd0d5;
+            border-color: var(--brand-red);
+            color: var(--brand-red);
+            transform: scale(1.1);
+        }
+        .seat.occupied {
+            background: var(--seat-occupied);
+            border-color: #bbb;
+            color: #bbb;
+            cursor: not-allowed;
+        }
+        .seat.selected {
+            background: var(--seat-selected);
+            border-color: #900;
+            color: #fff;
+        }
+        .seat.business-seat {
+            background: var(--seat-business);
+            border-color: #b89cf0;
+            color: #7b5ea7;
+            width: 36px;
+            height: 36px;
+        }
+        .seat.business-seat.selected {
+            background: var(--brand-red);
+            border-color: #900;
+            color: #fff;
+        }
+        .seat-col-labels {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+            margin-bottom: 8px;
+        }
+        .seat-col-labels span {
+            font-size: 10px;
+            font-weight: 800;
+            color: #bbb;
+            text-align: center;
+        }
+        .seat-col-labels .col-seat { width: 30px; }
+        .seat-col-labels .col-aisle { width: 18px; }
+        .seat-col-labels .col-num { width: 24px; }
+
+        .seat-info-panel {
+            width: 230px;
+            flex-shrink: 0;
+        }
+        .seat-summary-box {
+            background: #f7f9fc;
+            border: 1px solid #e0e6ed;
+            border-radius: 10px;
+            padding: 18px;
+            font-size: 13px;
+        }
+        .seat-summary-box .label { color: #888; }
+        .seat-summary-box .value { font-weight: 700; color: var(--brand-dark); }
+        .seat-summary-box hr { border-color: #e0e6ed; margin: 12px 0; }
+
+        /* ---- Step 3: Payment ---- */
+        .payment-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+        .payment-grid.full { grid-template-columns: 1fr; }
+        .form-group {
+            margin-bottom: 0;
+        }
+        .form-group label {
+            font-size: 12px;
+            font-weight: 700;
+            color: #555;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 6px;
+            display: block;
+        }
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 11px 14px;
+            border: 2px solid #e0e6ed;
+            border-radius: 8px;
+            font-size: 14px;
+            color: var(--brand-dark);
+            background: #fff;
+            transition: border-color 0.2s;
+            outline: none;
+        }
+        .form-group input:focus, .form-group select:focus {
+            border-color: var(--accent);
+        }
+        .card-icons {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+        .card-icon {
+            background: #f0f0f0;
+            border-radius: 6px;
+            padding: 6px 12px;
+            font-size: 11px;
+            font-weight: 800;
+            color: #444;
+            border: 1px solid #ddd;
+        }
+        .card-icon.visa { color: #1a1f71; }
+        .card-icon.mc { color: #eb001b; }
+
+        .order-summary {
+            background: #f7f9fc;
+            border: 1px solid #e0e6ed;
+            border-radius: 10px;
+            padding: 20px;
+        }
+        .order-summary h5 {
+            font-weight: 800;
+            font-size: 14px;
+            color: var(--brand-dark);
+            margin-bottom: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 13px;
+            margin-bottom: 8px;
+            color: #666;
+        }
+        .summary-row.total {
+            border-top: 2px solid #e0e6ed;
+            padding-top: 10px;
+            margin-top: 6px;
+            font-size: 16px;
+            font-weight: 900;
+            color: var(--brand-dark);
+        }
+        .summary-row.total span:last-child {
+            color: var(--brand-red);
+        }
+
+        /* ---- Ticket ---- */
+        #ticket-section {
+            display: none;
+        }
+        .ticket-wrapper {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        .ticket {
+            background: #fff;
+            border-radius: 18px;
+            box-shadow: 0 8px 40px rgba(0,0,0,0.13);
+            overflow: hidden;
+            position: relative;
+        }
+        .ticket-header {
+            background: linear-gradient(135deg, var(--brand-dark) 0%, var(--brand-blue) 60%, var(--accent) 100%);
+            padding: 30px 36px 24px;
+            color: #fff;
+            position: relative;
+            overflow: hidden;
+        }
+        .ticket-header::before {
+            content: '✈';
+            position: absolute;
+            right: -10px;
+            top: -20px;
+            font-size: 120px;
+            opacity: 0.07;
+            transform: rotate(15deg);
+        }
+        .ticket-header .airline-name {
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            opacity: 0.8;
+            margin-bottom: 10px;
+        }
+        .ticket-header .route-display {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+        }
+        .ticket-header .iata {
+            font-size: 52px;
+            font-weight: 900;
+            letter-spacing: -2px;
+            line-height: 1;
+        }
+        .ticket-header .city-name {
+            font-size: 12px;
+            opacity: 0.7;
+            margin-top: 2px;
+        }
+        .ticket-header .plane-icon {
+            font-size: 28px;
+            opacity: 0.7;
+            flex: 1;
+            text-align: center;
+        }
+        .ticket-divider {
+            display: flex;
+            align-items: center;
+            position: relative;
+        }
+        .ticket-divider::before {
+            content: '';
+            position: absolute;
+            left: -20px;
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            background: #f7f9fc;
+            z-index: 1;
+        }
+        .ticket-divider::after {
+            content: '';
+            position: absolute;
+            right: -20px;
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            background: #f7f9fc;
+            z-index: 1;
+        }
+        .ticket-divider hr {
+            flex: 1;
+            border: none;
+            border-top: 2px dashed #ddd;
+            margin: 0 26px;
+        }
+        .ticket-body {
+            padding: 28px 36px;
+        }
+        .ticket-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 18px 24px;
+        }
+        .ticket-field .tf-label {
+            font-size: 10px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #aaa;
+            margin-bottom: 4px;
+        }
+        .ticket-field .tf-value {
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--brand-dark);
+        }
+        .ticket-footer {
+            background: #f7f9fc;
+            padding: 18px 36px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 2px dashed #e0e6ed;
+        }
+        .ticket-footer .booking-ref {
+            font-size: 11px;
+            color: #888;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .ticket-footer .booking-ref span {
+            font-size: 18px;
+            color: var(--brand-dark);
+            font-weight: 900;
+            letter-spacing: 2px;
+            display: block;
+        }
+        .barcode-placeholder {
+            display: flex;
+            gap: 2px;
+            align-items: flex-end;
+            height: 44px;
+        }
+        .barcode-placeholder div {
+            background: var(--brand-dark);
+            width: 3px;
+        }
+        .success-banner {
+            background: linear-gradient(135deg, #28a745, #20c997);
+            color: #fff;
+            border-radius: 12px;
+            padding: 20px 28px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 28px;
+        }
+        .success-banner i { font-size: 36px; }
+        .success-banner h4 { margin: 0; font-size: 18px; font-weight: 800; }
+        .success-banner p { margin: 4px 0 0; opacity: 0.9; font-size: 13px; }
+
+        /* ---- Buttons ---- */
+        .btn-booking {
+            background: var(--brand-red);
+            color: #fff;
+            border: none;
+            padding: 14px 36px;
+            border-radius: 10px;
+            font-size: 15px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: all 0.2s;
+            letter-spacing: 0.3px;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .btn-booking:hover {
+            background: #c0000e;
+            transform: translateY(-1px);
+            box-shadow: 0 6px 20px rgba(232,25,44,0.3);
+        }
+        .btn-outline-booking {
+            background: transparent;
+            color: var(--brand-blue);
+            border: 2px solid var(--brand-blue);
+            padding: 13px 28px;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .btn-outline-booking:hover {
+            background: var(--brand-blue);
+            color: #fff;
+        }
+        .btn-print {
+            background: var(--brand-blue);
+            color: #fff;
+            border: none;
+            padding: 12px 28px;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .btn-print:hover { background: #0d1f3c; }
+
+        .step-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 28px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+
+        /* ---- Responsive ---- */
+        @media (max-width: 768px) {
+            .seat-map-wrapper { flex-direction: column; }
+            .seat-info-panel { width: 100%; }
+            .payment-grid { grid-template-columns: 1fr; }
+            .ticket-grid { grid-template-columns: repeat(2, 1fr); }
+            .flight-card { flex-wrap: wrap; }
+            .booking-card { padding: 22px 18px; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Preloader Start -->
+<div id="preloader-active">
+    <div class="preloader d-flex align-items-center justify-content-center">
+        <div class="preloader-inner position-relative">
+            <div class="preloader-circle"></div>
+            <div class="preloader-img pere-text">
+                <img src="assets/img/logo/rowings-orizontal.png" alt="">
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Preloader End -->
+
+<header>
+    <!-- Header Start -->
+    <div class="header-area">
+        <div class="main-header">
+            <div class="header-top top-bg d-none d-lg-block">
+                <div class="container">
+                    <div class="row justify-content-between align-items-center">
+                        <div class="col-lg-8">
+                            <div class="header-info-left">
+                                <ul>
+                                    <li>rowingssuport@gmail.com</li>
+                                    <li>+40 21 224 23 76</li>
+                                    <li>Str. Feroviarelor nr. 36</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="header-info-right f-right">
+                                <ul class="header-social">
+                                    <li><a href="https://www.instagram.com/rowings_official/"><i class="fab fa-instagram"></i></a></li>
+                                    <li><a href="https://github.com/Joonysins/Rowings"><i class="fab fa-github"></i></a></li>
+                                    <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
+                                    <li><a href="#"><i class="fab fa-pinterest-p"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="header-bottom header-sticky">
+                <div class="container">
+                    <div class="row align-items-center">
+                        <div class="col-xl-2 col-lg-2 col-md-1">
+                            <div class="logo">
+                                <a href="index.html"><img src="assets/img/logo/rowings-orizontal.png" alt="Rowings"></a>
+                            </div>
+                        </div>
+                        <div class="col-xl-10 col-lg-10 col-md-10">
+                            <div class="main-menu f-right d-none d-lg-block">
+                                <nav>
+                                    <ul id="navigation">
+                                        <li><a href="index.html">Acasă</a></li>
+                                        <li><a href="about.html">Despre noi</a></li>
+                                        <li><a href="packages.html">Pachete</a></li>
+                                        <li><a href="rezervare.html" style="color: var(--brand-red);">Rezervare</a></li>
+                                        <li><a href="contact.html">Contact</a></li>
+                                    </ul>
+                                </nav>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="mobile_menu d-block d-lg-none"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Header End -->
+</header>
+
+<main>
+    <!-- Page Hero -->
+    <div class="slider-area">
+        <div class="single-slider slider-height2 d-flex align-items-center" data-background="assets/img/hero/contact_hero.jpg">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xl-12">
+                        <div class="hero-cap text-center">
+                            <h2>Rezervare Bilet de Avion</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Progress Bar -->
+    <div class="booking-progress">
+        <div class="container">
+            <ul class="progress-steps" id="progressSteps">
+                <li class="active" id="step-indicator-1">
+                    <div class="step-icon">1</div>
+                    <span class="step-label">Zbor</span>
+                </li>
+                <li id="step-indicator-2">
+                    <div class="step-icon">2</div>
+                    <span class="step-label">Locuri</span>
+                </li>
+                <li id="step-indicator-3">
+                    <div class="step-icon">3</div>
+                    <span class="step-label">Plată</span>
+                </li>
+                <li id="step-indicator-4">
+                    <div class="step-icon"><i class="fas fa-check" style="font-size:13px;"></i></div>
+                    <span class="step-label">Bilet</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Booking Content -->
+    <div class="booking-section">
+        <div class="container">
+
+            <!-- ===================== STEP 1: FLIGHT SELECTION ===================== -->
+            <div id="step1">
+                <div class="row">
+                    <div class="col-xl-8 col-lg-8">
+                        <div class="booking-card">
+                            <h3><i class="fas fa-search"></i> Alege Zborul</h3>
+
+                            <!-- Search bar -->
+                            <div class="row mb-3" style="gap:0;">
+                                <div class="col-md-5 mb-2">
+                                    <div class="form-group">
+                                        <label>Origine</label>
+                                        <input type="text" id="s1-origin" placeholder="ex. București (OTP)" value="București (OTP)">
+                                    </div>
+                                </div>
+                                <div class="col-md-5 mb-2">
+                                    <div class="form-group">
+                                        <label>Destinație</label>
+                                        <select id="s1-dest">
+                                            <option value="Paris (CDG)">✈ Paris (CDG)</option>
+                                            <option value="Londra (LHR)">✈ Londra (LHR)</option>
+                                            <option value="Roma (FCO)">✈ Roma (FCO)</option>
+                                            <option value="New York (JFK)">✈ New York (JFK)</option>
+                                            <option value="Dubai (DXB)">✈ Dubai (DXB)</option>
+                                            <option value="Tokio (HND)">✈ Tokio (HND)</option>
+                                            <option value="Barcelona (BCN)">✈ Barcelona (BCN)</option>
+                                            <option value="Amsterdam (AMS)">✈ Amsterdam (AMS)</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-2 mb-2 d-flex align-items-end">
+                                    <button class="btn-booking" style="width:100%; padding:11px 0; font-size:13px;" onclick="filterFlights()">
+                                        <i class="fas fa-search"></i> Caută
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Class tabs -->
+                            <div class="class-tabs">
+                                <button class="class-tab active" onclick="setClass(this,'economy')">Economy</button>
+                                <button class="class-tab" onclick="setClass(this,'business')">Business</button>
+                                <button class="class-tab" onclick="setClass(this,'first')">First Class</button>
+                            </div>
+
+                            <!-- Flight list -->
+                            <div id="flightList"></div>
+                        </div>
+                    </div>
+                    <div class="col-xl-4 col-lg-4">
+                        <div class="booking-card">
+                            <h3><i class="fas fa-info-circle"></i> Info Zbor</h3>
+                            <div id="flightInfoPanel">
+                                <p style="color:#aaa; font-size:13px; text-align:center; padding: 20px 0;">
+                                    <i class="fas fa-plane" style="font-size:28px; display:block; margin-bottom:10px;"></i>
+                                    Selectează un zbor pentru a vedea detaliile.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="booking-card mt-3" style="background: linear-gradient(135deg,#e8192c,#a30016); color:#fff;">
+                            <p style="font-size:13px; margin:0; opacity:.9;"><i class="fas fa-shield-alt" style="margin-right:6px;"></i>Toate rezervările includ asigurare de anulare gratuită în primele 24h.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="step-nav">
+                    <div></div>
+                    <button class="btn-booking" onclick="goToStep(2)">
+                        Continuă &rarr; Alege Locul <i class="fas fa-chair"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- ===================== STEP 2: SEAT SELECTION ===================== -->
+            <div id="step2" style="display:none;">
+                <div class="booking-card">
+                    <h3><i class="fas fa-chair"></i> Selectează Locul</h3>
+                    <div class="seat-map-wrapper">
+                        <div class="seat-map-plane">
+                            <div class="seat-legend">
+                                <div class="legend-item"><div class="legend-seat available"></div> Disponibil</div>
+                                <div class="legend-item"><div class="legend-seat occupied"></div> Ocupat</div>
+                                <div class="legend-item"><div class="legend-seat selected"></div> Selectat</div>
+                                <div class="legend-item"><div class="legend-seat business"></div> Business</div>
+                            </div>
+                            <div class="plane-nose">&#9992;</div>
+                            <div class="seat-col-labels">
+                                <span class="col-num"></span>
+                                <span class="col-seat">A</span>
+                                <span class="col-seat">B</span>
+                                <span class="col-seat">C</span>
+                                <span class="col-aisle"></span>
+                                <span class="col-seat">D</span>
+                                <span class="col-seat">E</span>
+                                <span class="col-seat">F</span>
+                            </div>
+                            <div id="seatMap"></div>
+                        </div>
+                        <div class="seat-info-panel">
+                            <div class="seat-summary-box">
+                                <div style="font-weight:800; font-size:14px; color:var(--brand-dark); margin-bottom:12px;">Rezumat Rezervare</div>
+                                <div class="summary-row"><span class="label">Zbor</span><span class="value" id="sum-flight">-</span></div>
+                                <div class="summary-row"><span class="label">Data</span><span class="value" id="sum-date">-</span></div>
+                                <div class="summary-row"><span class="label">Clasa</span><span class="value" id="sum-class">-</span></div>
+                                <hr>
+                                <div class="summary-row"><span class="label">Loc selectat</span><span class="value" id="sum-seat" style="color:var(--brand-red);">Niciunul</span></div>
+                                <div class="summary-row"><span class="label">Tip loc</span><span class="value" id="sum-seat-type">-</span></div>
+                                <hr>
+                                <div class="summary-row total"><span>Total</span><span id="sum-price">-</span></div>
+                            </div>
+                            <div style="margin-top:14px; font-size:12px; color:#888; padding:12px; background:#fffbea; border-radius:8px; border:1px solid #ffe58f;">
+                                <i class="fas fa-info-circle" style="color:#f5a623;"></i>
+                                Locurile marcate în <strong>mov</strong> sunt Business Class — incluse dacă ai ales clasa business.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="step-nav">
+                    <button class="btn-outline-booking" onclick="goToStep(1)">
+                        <i class="fas fa-arrow-left"></i> Înapoi
+                    </button>
+                    <button class="btn-booking" onclick="goToStep(3)">
+                        Continuă &rarr; Plată <i class="fas fa-credit-card"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- ===================== STEP 3: PAYMENT ===================== -->
+            <div id="step3" style="display:none;">
+                <div class="row">
+                    <div class="col-xl-8 col-lg-8">
+                        <div class="booking-card">
+                            <h3><i class="fas fa-user"></i> Date Pasager</h3>
+                            <div class="payment-grid">
+                                <div class="form-group">
+                                    <label>Prenume</label>
+                                    <input type="text" id="pay-fname" placeholder="ex. Andrei">
+                                </div>
+                                <div class="form-group">
+                                    <label>Nume de familie</label>
+                                    <input type="text" id="pay-lname" placeholder="ex. Popescu">
+                                </div>
+                                <div class="form-group">
+                                    <label>Email</label>
+                                    <input type="email" id="pay-email" placeholder="email@exemplu.com">
+                                </div>
+                                <div class="form-group">
+                                    <label>Telefon</label>
+                                    <input type="tel" id="pay-phone" placeholder="+40 7XX XXX XXX">
+                                </div>
+                                <div class="form-group">
+                                    <label>Naționalitate</label>
+                                    <select id="pay-nationality">
+                                        <option>Română</option>
+                                        <option>Germană</option>
+                                        <option>Franceză</option>
+                                        <option>Britanică</option>
+                                        <option>Americană</option>
+                                        <option>Italiană</option>
+                                        <option>Spaniolă</option>
+                                        <option>Alta</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Nr. Pașaport / CI</label>
+                                    <input type="text" id="pay-passport" placeholder="ex. AB123456">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="booking-card">
+                            <h3><i class="fas fa-credit-card"></i> Detalii Plată</h3>
+                            <div class="card-icons">
+                                <div class="card-icon visa">VISA</div>
+                                <div class="card-icon mc">MC</div>
+                                <div class="card-icon">AMEX</div>
+                            </div>
+                            <div class="payment-grid">
+                                <div class="form-group" style="grid-column:1/-1;">
+                                    <label>Titular Card</label>
+                                    <input type="text" id="pay-cardholder" placeholder="ex. ANDREI POPESCU">
+                                </div>
+                                <div class="form-group" style="grid-column:1/-1;">
+                                    <label>Număr Card</label>
+                                    <input type="text" id="pay-cardnum" placeholder="XXXX XXXX XXXX XXXX" maxlength="19" oninput="formatCard(this)">
+                                </div>
+                                <div class="form-group">
+                                    <label>Data Expirării</label>
+                                    <input type="text" id="pay-expiry" placeholder="LL/AA" maxlength="5" oninput="formatExpiry(this)">
+                                </div>
+                                <div class="form-group">
+                                    <label>CVV</label>
+                                    <input type="password" id="pay-cvv" placeholder="•••" maxlength="3">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-4 col-lg-4">
+                        <div class="booking-card">
+                            <h3><i class="fas fa-receipt"></i> Sumar</h3>
+                            <div class="order-summary">
+                                <h5>Detalii Comandă</h5>
+                                <div class="summary-row"><span>Zbor</span><span id="pay-sum-flight">-</span></div>
+                                <div class="summary-row"><span>Trată</span><span id="pay-sum-route">-</span></div>
+                                <div class="summary-row"><span>Data</span><span id="pay-sum-date">-</span></div>
+                                <div class="summary-row"><span>Loc</span><span id="pay-sum-seat">-</span></div>
+                                <div class="summary-row"><span>Clasa</span><span id="pay-sum-class">-</span></div>
+                                <div class="summary-row"><span>Bagaj inclus</span><span>23 kg</span></div>
+                                <div class="summary-row"><span>Taxe aeroport</span><span id="pay-sum-tax">-</span></div>
+                                <div class="summary-row total"><span>Total</span><span id="pay-sum-total">-</span></div>
+                            </div>
+                            <div style="margin-top:14px; text-align:center; font-size:11px; color:#aaa;">
+                                <i class="fas fa-lock" style="color:#28a745;"></i> Plată 100% securizată prin SSL
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="step-nav">
+                    <button class="btn-outline-booking" onclick="goToStep(2)">
+                        <i class="fas fa-arrow-left"></i> Înapoi
+                    </button>
+                    <button class="btn-booking" onclick="processPayment()">
+                        <i class="fas fa-lock"></i> Confirmă și Plătește
+                    </button>
+                </div>
+            </div>
+
+            <!-- ===================== STEP 4: TICKET ===================== -->
+            <div id="step4" style="display:none;">
+                <div class="ticket-wrapper">
+                    <div class="success-banner">
+                        <i class="fas fa-check-circle"></i>
+                        <div>
+                            <h4>Rezervare Confirmată!</h4>
+                            <p>Biletul tău a fost generat cu succes. Verifică email-ul pentru o copie.</p>
+                        </div>
+                    </div>
+
+                    <div class="ticket" id="generatedTicket">
+                        <div class="ticket-header">
+                            <div class="airline-name">✈ ROWINGS AIRLINES</div>
+                            <div class="route-display">
+                                <div>
+                                    <div class="iata" id="tk-orig-iata">OTP</div>
+                                    <div class="city-name" id="tk-orig-city">București</div>
+                                </div>
+                                <div class="plane-icon">✈ ─ ─ ─ ─ ─ ─</div>
+                                <div>
+                                    <div class="iata" id="tk-dest-iata">CDG</div>
+                                    <div class="city-name" id="tk-dest-city">Paris</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div style="padding: 0 20px;">
+                            <div class="ticket-divider"><hr></div>
+                        </div>
+
+                        <div class="ticket-body">
+                            <div class="ticket-grid">
+                                <div class="ticket-field">
+                                    <div class="tf-label">Pasager</div>
+                                    <div class="tf-value" id="tk-passenger">-</div>
+                                </div>
+                                <div class="ticket-field">
+                                    <div class="tf-label">Data Zborului</div>
+                                    <div class="tf-value" id="tk-date">-</div>
+                                </div>
+                                <div class="ticket-field">
+                                    <div class="tf-label">Decolare</div>
+                                    <div class="tf-value" id="tk-depart">-</div>
+                                </div>
+                                <div class="ticket-field">
+                                    <div class="tf-label">Aterizare</div>
+                                    <div class="tf-value" id="tk-arrive">-</div>
+                                </div>
+                                <div class="ticket-field">
+                                    <div class="tf-label">Zbor</div>
+                                    <div class="tf-value" id="tk-flightno">-</div>
+                                </div>
+                                <div class="ticket-field">
+                                    <div class="tf-label">Clasa</div>
+                                    <div class="tf-value" id="tk-class">-</div>
+                                </div>
+                                <div class="ticket-field">
+                                    <div class="tf-label">Loc</div>
+                                    <div class="tf-value" id="tk-seat" style="font-size:20px; color:var(--brand-red);"></div>
+                                </div>
+                                <div class="ticket-field">
+                                    <div class="tf-label">Bagaj</div>
+                                    <div class="tf-value">23 kg</div>
+                                </div>
+                                <div class="ticket-field">
+                                    <div class="tf-label">Pașaport / CI</div>
+                                    <div class="tf-value" id="tk-passport">-</div>
+                                </div>
+                                <div class="ticket-field">
+                                    <div class="tf-label">Naționalitate</div>
+                                    <div class="tf-value" id="tk-nationality">-</div>
+                                </div>
+                                <div class="ticket-field" style="grid-column:3/5;">
+                                    <div class="tf-label">Total Achitat</div>
+                                    <div class="tf-value" id="tk-total" style="color:var(--brand-red); font-size:20px;"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="ticket-footer">
+                            <div class="booking-ref">
+                                Cod Rezervare
+                                <span id="tk-ref">RWG-000000</span>
+                            </div>
+                            <div class="barcode-placeholder" id="barcode"></div>
+                        </div>
+                    </div>
+
+                    <div style="display:flex; gap:14px; margin-top:24px; justify-content:center; flex-wrap:wrap;">
+                        <button class="btn-print" onclick="window.print()">
+                            <i class="fas fa-print"></i> Printează Biletul
+                        </button>
+                        <button class="btn-booking" onclick="resetBooking()">
+                            <i class="fas fa-plus"></i> Rezervare Nouă
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <!-- /Step 4 -->
+
+        </div><!-- /container -->
+    </div><!-- /booking-section -->
+</main>
+
+<footer>
+    <!-- Footer Start-->
+    <div class="footer-area footer-padding footer-bg" data-background="assets/img/service/footer_bg.jpg">
+        <div class="container">
+            <div class="row d-flex justify-content-between">
+                <div class="col-xl-3 col-lg-3 col-md-5 col-sm-6">
+                    <div class="single-footer-caption mb-50">
+                        <div class="single-footer-caption mb-30">
+                            <div class="footer-logo">
+                                <a href="index.html"><img src="assets/img/logo/rowings-orizontal.png" alt=""></a>
+                            </div>
+                            <div class="footer-tittle">
+                                <div class="footer-pera">
+                                    <p>Zboruri la cel mai înalt nivel cu Rowings. Oferim servicii de rezervare bilete de avion pentru pasageri, transport cargo, pachete turistice și asistență 24/7 pentru călătoriile tale.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-2 col-lg-3 col-md-3 col-sm-5">
+                    <div class="single-footer-caption mb-50">
+                        <div class="footer-tittle">
+                            <h4>Link-uri Rapide</h4>
+                            <ul>
+                                <li><a href="about.html">Despre noi</a></li>
+                                <li><a href="packages.html">Oferte și Reduceri</a></li>
+                                <li><a href="blog.html">Obține Cupon</a></li>
+                                <li><a href="contact.html">Contactează-ne</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-3 col-md-4 col-sm-7">
+                    <div class="single-footer-caption mb-50">
+                        <div class="footer-tittle">
+                            <h4>Destinații Populare</h4>
+                            <ul>
+                                <li><a href="#">Zboruri Interne</a></li>
+                                <li><a href="#">Europa</a></li>
+                                <li><a href="#">America de Nord</a></li>
+                                <li><a href="#">Asia și Oceania</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-3 col-md-5 col-sm-7">
+                    <div class="single-footer-caption mb-50">
+                        <div class="footer-tittle">
+                            <h4>Suport</h4>
+                            <ul>
+                                <li><a href="#">Întrebări Frecvente</a></li>
+                                <li><a href="#">Termeni și Condiții</a></li>
+                                <li><a href="#">Politica de Confidențialitate</a></li>
+                                <li><a href="#">Raportează o Problemă de Plată</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Footer bottom -->
+            <div class="row pt-padding">
+                <div class="col-xl-7 col-lg-7 col-md-7">
+                    <div class="footer-copy-right">
+                        <p>Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This website is made with <i class="ti-heart" aria-hidden="true"></i> by <a href="https://github.com/Joonysins">Joony</a></p>
+                    </div>
+                </div>
+                <div class="col-xl-5 col-lg-5 col-md-5">
+                    <div class="footer-social f-right">
+                        <a href="https://www.instagram.com/rowings_official/"><i class="fab fa-instagram"></i></a>
+                        <a href="https://www.github.com/Joonysins/Rowings"><i class="fab fa-github"></i></a>
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-pinterest-p"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Footer End-->
+</footer>
+
+<!-- JS here -->
+<script src="./assets/js/vendor/modernizr-3.5.0.min.js"></script>
+<script src="./assets/js/vendor/jquery-1.12.4.min.js"></script>
+<script src="./assets/js/popper.min.js"></script>
+<script src="./assets/js/bootstrap.min.js"></script>
+<script src="./assets/js/jquery.slicknav.min.js"></script>
+<script src="./assets/js/owl.carousel.min.js"></script>
+<script src="./assets/js/slick.min.js"></script>
+<script src="./assets/js/wow.min.js"></script>
+<script src="./assets/js/animated.headline.js"></script>
+<script src="./assets/js/jquery.magnific-popup.js"></script>
+<script src="./assets/js/jquery.scrollUp.min.js"></script>
+<script src="./assets/js/jquery.nice-select.min.js"></script>
+<script src="./assets/js/jquery.sticky.js"></script>
+<script src="./assets/js/contact.js"></script>
+<script src="./assets/js/jquery.form.js"></script>
+<script src="./assets/js/jquery.validate.min.js"></script>
+<script src="./assets/js/mail-script.js"></script>
+<script src="./assets/js/jquery.ajaxchimp.min.js"></script>
+<script src="./assets/js/plugins.js"></script>
+<script src="./assets/js/main.js"></script>
+
+<script>
+/* ============================================================
+   ROWINGS — BOOKING ENGINE
+   ============================================================ */
+
+// ---- DATA ----
+const FLIGHTS = [
+    { id:'RW101', from:'OTP', fromCity:'București', to:'CDG', toCity:'Paris',       dep:'07:30', arr:'09:55', dur:'2h 25m', stops:'Direct', price:{economy:149, business:420, first:780}, date:'2026-06-15', seats:['economy','business'] },
+    { id:'RW204', from:'OTP', fromCity:'București', to:'LHR', toCity:'Londra',       dep:'10:15', arr:'13:40', dur:'3h 25m', stops:'Direct', price:{economy:189, business:530, first:990}, date:'2026-06-15', seats:['economy','business'] },
+    { id:'RW317', from:'OTP', fromCity:'București', to:'FCO', toCity:'Roma',         dep:'14:00', arr:'15:50', dur:'1h 50m', stops:'Direct', price:{economy:99,  business:310, first:620}, date:'2026-06-15', seats:['economy','business'] },
+    { id:'RW455', from:'OTP', fromCity:'București', to:'JFK', toCity:'New York',     dep:'09:00', arr:'14:30', dur:'11h 30m',stops:'1 Escală',price:{economy:599, business:1450,first:2800},date:'2026-06-16', seats:['economy','business'] },
+    { id:'RW512', from:'OTP', fromCity:'București', to:'DXB', toCity:'Dubai',        dep:'01:20', arr:'08:45', dur:'6h 25m', stops:'Direct', price:{economy:349, business:890, first:1650},date:'2026-06-16', seats:['economy','business'] },
+    { id:'RW630', from:'OTP', fromCity:'București', to:'HND', toCity:'Tokio',        dep:'11:00', arr:'06:30', dur:'14h 30m',stops:'1 Escală',price:{economy:799, business:2100,first:3900},date:'2026-06-17', seats:['economy','business'] },
+    { id:'RW741', from:'OTP', fromCity:'București', to:'BCN', toCity:'Barcelona',    dep:'16:45', arr:'19:10', dur:'2h 25m', stops:'Direct', price:{economy:129, business:380, first:720}, date:'2026-06-15', seats:['economy','business'] },
+    { id:'RW822', from:'OTP', fromCity:'București', to:'AMS', toCity:'Amsterdam',    dep:'08:20', arr:'10:40', dur:'2h 20m', stops:'Direct', price:{economy:139, business:400, first:760}, date:'2026-06-15', seats:['economy','business'] },
+];
+
+const DEST_MAP = {
+    'Paris (CDG)':'CDG','Londra (LHR)':'LHR','Roma (FCO)':'FCO',
+    'New York (JFK)':'JFK','Dubai (DXB)':'DXB','Tokio (HND)':'HND',
+    'Barcelona (BCN)':'BCN','Amsterdam (AMS)':'AMS'
+};
+
+let selectedClass = 'economy';
+let selectedFlight = null;
+let selectedSeat   = null;
+
+// Occupied seats (pre-seeded)
+const OCCUPIED_SEATS = new Set([
+    '1A','1C','2B','2F','3D','3E',
+    '5A','5B','6C','6D','7E','7F',
+    '9A','10B','10C','11D','12E','12F',
+    '14A','14B','15C','16D','17E',
+    '19A','20B','21C','22D','23E','23F',
+    '25A','25B','26D','27E','27F',
+    '3A-biz','4B-biz','5C-biz'
+]);
+
+// ---- HELPERS ----
+function getTaxAmount(price) {
+    return Math.round(price * 0.10);
+}
+function getTotalPrice(price) {
+    return price + getTaxAmount(price);
+}
+function generateRef() {
+    return 'RWG-' + Math.floor(100000 + Math.random() * 900000);
+}
+function formatDate(d) {
+    if (!d) return '-';
+    const [y,m,day] = d.split('-');
+    const months = ['Ian','Feb','Mar','Apr','Mai','Iun','Iul','Aug','Sep','Oct','Noi','Dec'];
+    return `${day} ${months[parseInt(m)-1]} ${y}`;
+}
+
+// ---- STEP 1: FLIGHTS ----
+function setClass(btn, cls) {
+    document.querySelectorAll('.class-tab').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    selectedClass = cls;
+    renderFlights();
+}
+
+function filterFlights() {
+    renderFlights();
+}
+
+function renderFlights() {
+    const destSelect = document.getElementById('s1-dest');
+    const destVal    = destSelect.value;
+    const destIATA   = DEST_MAP[destVal] || '';
+
+    let filtered = destIATA ? FLIGHTS.filter(f => f.to === destIATA) : FLIGHTS;
+
+    const list = document.getElementById('flightList');
+    if (!filtered.length) {
+        list.innerHTML = '<p style="color:#aaa; text-align:center; padding:30px 0;">Niciun zbor găsit pentru această rută.</p>';
+        return;
+    }
+
+    list.innerHTML = filtered.map(f => {
+        const price    = f.price[selectedClass];
+        const isSelected = selectedFlight && selectedFlight.id === f.id;
+        const badge    = f.stops !== 'Direct' ? `<span class="flight-badge">✈ ${f.stops}</span>` : '';
+        return `
+        <div class="flight-card ${isSelected?'selected':''}" id="fc-${f.id}" onclick="selectFlight('${f.id}')">
+            <div class="airline-logo-placeholder">RW</div>
+            <div class="flight-route">
+                <div class="airports">
+                    <span>${f.from}</span>
+                    <div class="arrow-line">
+                        <hr>
+                        <i class="fas fa-plane"></i>
+                        <hr>
+                    </div>
+                    <span>${f.to}</span>
+                    ${badge}
+                </div>
+                <div class="flight-times">
+                    <span>${f.dep}</span> → <span>${f.arr}</span> &nbsp;|&nbsp; ${formatDate(f.date)}
+                </div>
+            </div>
+            <div class="flight-duration">
+                <div class="dur">${f.dur}</div>
+                <div class="stops">${f.stops}</div>
+            </div>
+            <div class="flight-price">
+                <div class="price-amount">${price}€</div>
+                <div class="price-class">${selectedClass.charAt(0).toUpperCase()+selectedClass.slice(1)}</div>
+                <button class="select-btn" onclick="event.stopPropagation();selectFlight('${f.id}')">
+                    ${isSelected ? '✓ Selectat' : 'Selectează'}
+                </button>
+            </div>
+        </div>`;
+    }).join('');
+
+    updateFlightInfo();
+}
+
+function selectFlight(id) {
+    selectedFlight = FLIGHTS.find(f => f.id === id);
+    selectedSeat   = null;
+    renderFlights();
+    updateFlightInfo();
+}
+
+function updateFlightInfo() {
+    const panel = document.getElementById('flightInfoPanel');
+    if (!selectedFlight) return;
+    const f     = selectedFlight;
+    const price = f.price[selectedClass];
+    panel.innerHTML = `
+        <div style="font-size:13px; line-height:2;">
+            <div><strong>Zbor:</strong> ${f.id}</div>
+            <div><strong>Rută:</strong> ${f.fromCity} → ${f.toCity}</div>
+            <div><strong>Data:</strong> ${formatDate(f.date)}</div>
+            <div><strong>Decolare:</strong> ${f.dep}</div>
+            <div><strong>Aterizare:</strong> ${f.arr}</div>
+            <div><strong>Durată:</strong> ${f.dur}</div>
+            <div><strong>Escale:</strong> ${f.stops}</div>
+            <hr>
+            <div><strong>Preț (${selectedClass}):</strong> <span style="color:var(--brand-red); font-size:18px; font-weight:900;">${price}€</span></div>
+            <div style="font-size:11px; color:#aaa;">+ ${getTaxAmount(price)}€ taxe aeroport</div>
+        </div>
+    `;
+}
+
+// ---- STEP 2: SEAT MAP ----
+function renderSeatMap() {
+    const map = document.getElementById('seatMap');
+    map.innerHTML = '';
+
+    // Business: rows 1-4
+    const bizLabel = document.createElement('div');
+    bizLabel.className = 'cabin-section-label business';
+    bizLabel.textContent = '✦ Business Class';
+    map.appendChild(bizLabel);
+
+    for (let row = 1; row <= 4; row++) {
+        const rowEl = document.createElement('div');
+        rowEl.className = 'seat-row';
+        rowEl.innerHTML = `<span class="seat-row-num">${row}</span>`;
+        ['A','B','C'].forEach(col => {
+            const key = `${row}${col}-biz`;
+            const occ = OCCUPIED_SEATS.has(key);
+            const sel = selectedSeat === key;
+            const div = document.createElement('div');
+            div.className = `seat business-seat${occ?' occupied':''}${sel?' selected':''}`;
+            div.textContent = col;
+            div.title = `${row}${col} - Business`;
+            if (!occ) div.onclick = () => selectSeat(key, `${row}${col}`, 'Business', row);
+            rowEl.appendChild(div);
+        });
+        rowEl.innerHTML += '<div class="seat-aisle"></div>';
+        ['D','E','F'].forEach(col => {
+            const key = `${row}${col}-biz`;
+            const occ = OCCUPIED_SEATS.has(key);
+            const sel = selectedSeat === key;
+            const div = document.createElement('div');
+            div.className = `seat business-seat${occ?' occupied':''}${sel?' selected':''}`;
+            div.textContent = col;
+            div.title = `${row}${col} - Business`;
+            if (!occ) div.onclick = () => selectSeat(key, `${row}${col}`, 'Business', row);
+            rowEl.appendChild(div);
+        });
+        map.appendChild(rowEl);
+    }
+
+    // Economy: rows 5-27
+    const ecoLabel = document.createElement('div');
+    ecoLabel.className = 'cabin-section-label';
+    ecoLabel.style.marginTop = '14px';
+    ecoLabel.textContent = 'Economy Class';
+    map.appendChild(ecoLabel);
+
+    for (let row = 5; row <= 27; row++) {
+        const rowEl = document.createElement('div');
+        rowEl.className = 'seat-row';
+        rowEl.innerHTML = `<span class="seat-row-num">${row}</span>`;
+        ['A','B','C'].forEach(col => {
+            const key = `${row}${col}`;
+            const occ = OCCUPIED_SEATS.has(key);
+            const sel = selectedSeat === key;
+            const div = document.createElement('div');
+            div.className = `seat${occ?' occupied':''}${sel?' selected':''}`;
+            div.textContent = col;
+            div.title = `${row}${col} - Economy`;
+            if (!occ) div.onclick = () => selectSeat(key, `${row}${col}`, 'Economy', row);
+            rowEl.appendChild(div);
+        });
+        rowEl.innerHTML += '<div class="seat-aisle"></div>';
+        ['D','E','F'].forEach(col => {
+            const key = `${row}${col}`;
+            const occ = OCCUPIED_SEATS.has(key);
+            const sel = selectedSeat === key;
+            const div = document.createElement('div');
+            div.className = `seat${occ?' occupied':''}${sel?' selected':''}`;
+            div.textContent = col;
+            div.title = `${row}${col} - Economy`;
+            if (!occ) div.onclick = () => selectSeat(key, `${row}${col}`, 'Economy', row);
+            rowEl.appendChild(div);
+        });
+        map.appendChild(rowEl);
+    }
+}
+
+function selectSeat(key, label, type, row) {
+    selectedSeat = key;
+    renderSeatMap();
+    // Update summary
+    document.getElementById('sum-seat').textContent      = label;
+    document.getElementById('sum-seat-type').textContent = type + (row <= 10 ? ' (față)' : row <= 20 ? ' (mijloc)' : ' (spate)');
+    const f = selectedFlight;
+    const basePrice = f.price[selectedClass];
+    document.getElementById('sum-price').textContent = getTotalPrice(basePrice) + '€';
+}
+
+function updateSeatSummary() {
+    if (!selectedFlight) return;
+    const f = selectedFlight;
+    document.getElementById('sum-flight').textContent = `${f.id} · ${f.from}→${f.to}`;
+    document.getElementById('sum-date').textContent   = formatDate(f.date);
+    document.getElementById('sum-class').textContent  = selectedClass.charAt(0).toUpperCase()+selectedClass.slice(1);
+    const basePrice = f.price[selectedClass];
+    document.getElementById('sum-price').textContent  = getTotalPrice(basePrice) + '€';
+}
+
+// ---- STEP 3: PAYMENT SUMMARY ----
+function updatePaymentSummary() {
+    if (!selectedFlight) return;
+    const f = selectedFlight;
+    const basePrice = f.price[selectedClass];
+    const tax       = getTaxAmount(basePrice);
+    const total     = getTotalPrice(basePrice);
+
+    document.getElementById('pay-sum-flight').textContent  = f.id;
+    document.getElementById('pay-sum-route').textContent   = `${f.fromCity} → ${f.toCity}`;
+    document.getElementById('pay-sum-date').textContent    = formatDate(f.date);
+    document.getElementById('pay-sum-seat').textContent    = selectedSeat ? selectedSeat.replace('-biz','') : '-';
+    document.getElementById('pay-sum-class').textContent   = selectedClass.charAt(0).toUpperCase()+selectedClass.slice(1);
+    document.getElementById('pay-sum-tax').textContent     = tax + '€';
+    document.getElementById('pay-sum-total').textContent   = total + '€';
+}
+
+// ---- CARD FORMATTING ----
+function formatCard(el) {
+    let v = el.value.replace(/\D/g,'').substring(0,16);
+    el.value = v.replace(/(.{4})/g,'$1 ').trim();
+}
+function formatExpiry(el) {
+    let v = el.value.replace(/\D/g,'');
+    if (v.length >= 2) v = v.substring(0,2) + '/' + v.substring(2,4);
+    el.value = v;
+}
+
+// ---- NAVIGATION ----
+function goToStep(n) {
+    if (n === 2 && !selectedFlight) {
+        alert('Te rugăm să selectezi un zbor mai întâi!');
+        return;
+    }
+    if (n === 3 && !selectedSeat) {
+        alert('Te rugăm să selectezi un loc mai întâi!');
+        return;
+    }
+
+    // Hide all
+    [1,2,3,4].forEach(i => {
+        document.getElementById('step'+i).style.display = 'none';
+        const ind = document.getElementById('step-indicator-'+i);
+        ind.classList.remove('active','done');
+    });
+    // Show current
+    document.getElementById('step'+n).style.display = 'block';
+    // Mark progress
+    for (let i = 1; i < n; i++) document.getElementById('step-indicator-'+i).classList.add('done');
+    if (n <= 4) document.getElementById('step-indicator-'+n).classList.add('active');
+
+    if (n === 2) { renderSeatMap(); updateSeatSummary(); }
+    if (n === 3) { updatePaymentSummary(); }
+
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ---- PAYMENT PROCESSING ----
+function processPayment() {
+    const fname   = document.getElementById('pay-fname').value.trim();
+    const lname   = document.getElementById('pay-lname').value.trim();
+    const email   = document.getElementById('pay-email').value.trim();
+    const cardnum = document.getElementById('pay-cardnum').value.trim();
+    const expiry  = document.getElementById('pay-expiry').value.trim();
+    const cvv     = document.getElementById('pay-cvv').value.trim();
+    const passport = document.getElementById('pay-passport').value.trim();
+    const natEl   = document.getElementById('pay-nationality');
+    const nationality = natEl ? natEl.value : 'Română';
+
+    if (!fname || !lname) { alert('Te rugăm să completezi Prenumele și Numele.'); return; }
+    if (!email || !email.includes('@')) { alert('Te rugăm să completezi un email valid.'); return; }
+    if (!cardnum || cardnum.replace(/\s/g,'').length < 16) { alert('Te rugăm să completezi numărul cardului (16 cifre).'); return; }
+    if (!expiry || expiry.length < 5) { alert('Te rugăm să completezi data expirării (LL/AA).'); return; }
+    if (!cvv || cvv.length < 3) { alert('Te rugăm să completezi CVV-ul (3 cifre).'); return; }
+    if (!passport) { alert('Te rugăm să completezi numărul pașaportului / CI.'); return; }
+
+    generateTicket(fname, lname, email, passport, nationality);
+    goToStep(4);
+}
+
+// ---- TICKET GENERATION ----
+function generateTicket(fname, lname, email, passport, nationality) {
+    const f = selectedFlight;
+    const basePrice = f.price[selectedClass];
+    const total     = getTotalPrice(basePrice);
+    const seatLabel = selectedSeat ? selectedSeat.replace('-biz','') : '-';
+
+    document.getElementById('tk-orig-iata').textContent = f.from;
+    document.getElementById('tk-orig-city').textContent = f.fromCity;
+    document.getElementById('tk-dest-iata').textContent = f.to;
+    document.getElementById('tk-dest-city').textContent = f.toCity;
+    document.getElementById('tk-passenger').textContent = `${fname.toUpperCase()} ${lname.toUpperCase()}`;
+    document.getElementById('tk-date').textContent      = formatDate(f.date);
+    document.getElementById('tk-depart').textContent    = f.dep;
+    document.getElementById('tk-arrive').textContent    = f.arr;
+    document.getElementById('tk-flightno').textContent  = f.id;
+    document.getElementById('tk-class').textContent     = selectedClass.charAt(0).toUpperCase()+selectedClass.slice(1);
+    document.getElementById('tk-seat').textContent      = seatLabel;
+    document.getElementById('tk-passport').textContent  = passport.toUpperCase();
+    document.getElementById('tk-nationality').textContent = nationality;
+    document.getElementById('tk-total').textContent     = total + '€';
+    document.getElementById('tk-ref').textContent       = generateRef();
+
+    // Generate random barcode
+    const bc = document.getElementById('barcode');
+    bc.innerHTML = '';
+    for (let i = 0; i < 35; i++) {
+        const bar = document.createElement('div');
+        const h = 16 + Math.floor(Math.random() * 28);
+        bar.style.height = h + 'px';
+        bar.style.width  = (i % 3 === 0 ? 5 : 3) + 'px';
+        bc.appendChild(bar);
+    }
+
+    // Mark step 4 indicator
+    document.getElementById('step-indicator-4').classList.add('active');
+}
+
+// ---- RESET ----
+function resetBooking() {
+    selectedFlight = null;
+    selectedSeat   = null;
+    selectedClass  = 'economy';
+    document.querySelectorAll('.class-tab').forEach((b,i) => b.classList.toggle('active', i===0));
+    goToStep(1);
+    renderFlights();
+}
+
+// ---- INIT ----
+document.addEventListener('DOMContentLoaded', function() {
+    renderFlights();
+});
+</script>
+
+</body>
+</html>
